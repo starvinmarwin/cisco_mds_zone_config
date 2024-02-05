@@ -1,0 +1,23 @@
+---
+- name: Load file containing fabric_a
+  ansible.builtin.include_vars:
+   file: fabric_a.yaml
+
+- name: Generate updated fabric data
+  ansible.builtin.template:
+    src: './updated_fabric_a.j2'
+    dest: './updated_fabric_a.yaml'
+    trim_blocks: false
+  delegate_to: localhost
+
+- name: Load updated data
+  ansible.builtin.include_vars:
+    file: ./updated_fabric_a.yaml
+
+- name: Add members to zone database
+  cisco.nxos.nxos_zone_zoneset:
+    zone_zoneset_details:
+      - mode: basic
+        smart_zoning: false
+        vsan: 1251
+        zone: "{{ new_fabric_a }}"
