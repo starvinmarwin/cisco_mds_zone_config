@@ -1,0 +1,18 @@
+- name: Filter name key from input data
+  ansible.builtin.set_fact:
+    filtered_fabric_a: "{{ fabric_a | ansible.utils.keep_keys(target=['name']) }}"
+
+- name: Show filtered data
+  ansible.builtin.debug:
+    var: filtered_fabric_a
+
+- name: Enable zoneset with all members
+  cisco.nxos.nxos_zone_zoneset:
+    zone_zoneset_details:
+    - mode: basic
+      smart_zoning: false
+      vsan: 1251
+      zoneset:
+      - action: activate
+        members: "{{ filtered_fabric_a }}"
+        name: Zoneset_20240205
