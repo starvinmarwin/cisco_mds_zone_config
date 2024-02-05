@@ -1,0 +1,9 @@
+---
+new_fabric_a:
+{%- for entry in fabric_a %}
+- name: {{ entry.name }}
+  members:
+  {%- for subentry in entry.pwwn %}
+  - pwwn: {{ subentry }}
+  {%- endfor %}
+{%- endfor %}
