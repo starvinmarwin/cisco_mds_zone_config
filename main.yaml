@@ -1,0 +1,20 @@
+---
+- hosts: fabric_a
+  collections:
+    - cisco.nxos
+  gather_facts: false
+
+  vars:
+   - ansible_connection: httpapi
+   - ansible_httpapi_use_ssl: yes
+   - ansible_httpapi_validate_certs: no
+   - ansible_network_os: nxos
+   - ansible_httpapi_port: 8443
+   - ansible_user: admin
+   - ansible_httpapi_pass: Proact123!
+   - ansible_password: Proact123!
+   - ansible_command_timeout: 600
+
+  tasks:
+    - import_tasks: tasks/zone_members.yaml
+    - import_tasks: tasks/zone_set.yaml
